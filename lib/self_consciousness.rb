@@ -3,11 +3,11 @@ require 'fileutils'
 
 module SelfConsciousness
   def self.normalize
-    FileUtils.rm_rf '.self_consciousness'
-    FileUtils.cp_r '.self_identity', '.self_consciousness'
+    FileUtils.mkdir '.self_consciousness'
+    FileUtils.cp '.self_identity/dependencies', '.self_consciousness/dependencies'
   end
 
-  def doubt
+  def self.doubt
     identity = Moneta.new :File, dir: '.self_identity'
     consciousness = Moneta.new :File, dir: '.self_consciousness'
   end
