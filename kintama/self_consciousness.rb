@@ -21,15 +21,16 @@ describe SelfConsciousness do
     assert_equal expected_dependencies, @storage.fetch('dependencies', nil)
   end
 
-  should 'compare itself with it\'s idea of "normal"' do
+  should 'compare itself with its idea of "normal"' do
     expected = {
-      removed: [{:output=>[1], :from=>:foo, :to=>:bar}],
-      added: [{:output=>[2], :from=>:bar, :to=>:baz}]
+      removals: [{:output=>[1], :from=>:foo, :to=>:bar}],
+      additions: [{:output=>[2], :from=>:bar, :to=>:baz}]
     }
     SelfConsciousness.normalize
     execute "#{__dir__}/test.rb differently"
     SelfConsciousness.introspect
-    assert_equal expected[:added], @storage.fetch('added', nil)
-    assert_equal expected[:removed], @storage.fetch('removed', nil)
+    expected.each do |key, value|
+      assert_equal expected[key], @storage.fetch(key.to_s, nil)
+    end
   end
 end
