@@ -13,7 +13,7 @@ describe 'self_consciousness required in a running script' do
   should 'decide what\'s "normal"' do
     expected = [{:output=>[1], :from=>:foo, :to=>:bar}]
     SelfConsciousness.normalize
-    assert_equal true, @storage.key?('normal')
-    assert_equal expected, @storage.fetch('normal', nil)
+    assert_equal true, @storage.key?('dependencies')
+    assert_equal expected, @storage.fetch('dependencies', nil)
   end
 end
