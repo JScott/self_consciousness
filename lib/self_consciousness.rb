@@ -20,6 +20,7 @@ module SelfConsciousness
   end
 
   def self.report
+    introspect
     conscious = Moneta.new :File, dir: '.self_consciousness'
 
   end
