@@ -16,10 +16,6 @@ def run_and(method = :normalize)
   SelfConsciousness.send method
 end
 
-def clear_introspection_results
-
-end
-
 describe SelfConsciousness do
   setup do
     @storage = Moneta.new :File, dir: '.self_consciousness'
