@@ -9,20 +9,25 @@ def execute(path)
   thread.join
 end
 
-def run_and_normalize
-  execute "#{__dir__}/test.rb"
-  SelfConsciousness.normalize
+def run_and(method = :normalize)
+  script = method == :normalize ? 'test.rb' : 'test.rb differently'
+  execute "#{__dir__}/#{script}"
+  SelfConsciousness.send method
 end
 
-def run_and_introspect
-  execute "#{__dir__}/test.rb differently"
-  SelfConsciousness.introspect
+def clear_introspection_results
+
 end
 
 describe SelfConsciousness do
   setup do
     @storage = Moneta.new :File, dir: '.self_consciousness'
-    run_and_normalize
+    @expected_introspection_results = {
+      removals: [{:output=>[1], :from=>:foo, :to=>:bar}],
+      additions: [{:output=>[2], :from=>:bar, :to=>:baz}]
+    }
+    SelfConsciousness.clear
+    run_and :normalize
   end
 
   should 'decide what\'s "normal"' do
@@ -32,21 +37,23 @@ describe SelfConsciousness do
   end
 
   should 'compare itself with its idea of "normal"' do
-    expected = {
-      removals: [{:output=>[1], :from=>:foo, :to=>:bar}],
-      additions: [{:output=>[2], :from=>:bar, :to=>:baz}]
-    }
-    run_and_introspect
-    expected.each do |key, value|
-      assert_equal expected[key], @storage.fetch(key.to_s, nil)
+    run_and :introspect
+    @expected_introspection_results.each do |key, value|
+      assert_equal value, @storage.fetch(key.to_s, nil)
+    end
+  end
+
+  should 'introspect before reporting' do
+    run_and :report
+    @expected_introspection_results.each do |key, value|
+      assert_equal value, @storage.fetch(key.to_s, nil)
     end
   end
 
   should 'report a diff of additions and removals' do
-    run_and_introspect
     [/removed/, /added/].each do |expected|
       assert_output expected do
-        SelfConsciousness.report
+        run_and :report
       end
     end
   end

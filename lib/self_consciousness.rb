@@ -8,6 +8,10 @@ module SelfConsciousness
     FileUtils.cp '.self_identity/dependencies', '.self_consciousness/dependencies'
   end
 
+  def self.clear
+    FileUtils.rm_rf '.self_consciousness'
+  end
+
   def self.introspect
     latest = Moneta.new :File, dir: '.self_identity'
     conscious = Moneta.new :File, dir: '.self_consciousness'
@@ -16,5 +20,7 @@ module SelfConsciousness
   end
 
   def self.report
+    conscious = Moneta.new :File, dir: '.self_consciousness'
+
   end
 end
