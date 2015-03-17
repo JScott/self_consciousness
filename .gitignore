@@ -1,2 +1,4 @@
 .self_identity
 .self_consciousness
+Gemfile.lock
+*.gem
