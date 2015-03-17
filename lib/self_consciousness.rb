@@ -8,9 +8,9 @@ module SelfConsciousness
   end
 
   def self.introspect
-    identity = Moneta.new :File, dir: '.self_identity'
-    consciousness = Moneta.new :File, dir: '.self_consciousness'
+    latest = Moneta.new :File, dir: '.self_identity'
+    conscious = Moneta.new :File, dir: '.self_consciousness'
+    conscious['removals'] = conscious['dependencies'] - latest['dependencies']
+    conscious['additions'] = latest['dependencies'] - conscious['dependencies']
   end
 end
-
-# realize
