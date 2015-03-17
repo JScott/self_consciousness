@@ -8,5 +8,14 @@ def bar(array)
   array.push 2
 end
 
-var = foo []
-var = bar var
+def baz(array)
+  array.push 3
+end
+
+if ARGV[0].nil?
+  var = foo []
+  var = bar var
+else
+  var = bar []
+  var = baz var
+end
