@@ -22,6 +22,7 @@ module SelfConsciousness
   def self.report
     introspect
     conscious = Moneta.new :File, dir: '.self_consciousness'
-
+    conscious['removals'].each { |item| puts "- #{item.to_s}".colorize(:red) }
+    conscious['additions'].each { |item| puts "+ #{item.to_s}".colorize(:green) }
   end
 end

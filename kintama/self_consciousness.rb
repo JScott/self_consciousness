@@ -1,6 +1,7 @@
 require 'kintama'
 require 'yaml'
 require 'moneta'
+require 'colorize'
 require_relative '../lib/self_consciousness'
 require_relative 'stdout_helper'
 
@@ -51,10 +52,8 @@ describe SelfConsciousness do
   end
 
   should 'report a diff of additions and removals' do
-    [/removed/, /added/].each do |expected|
-      assert_output expected do
-        run_and :report
-      end
+    assert_output /-.*+/ do
+      run_and :report
     end
   end
 end
