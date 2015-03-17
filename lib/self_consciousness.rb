@@ -1,5 +1,6 @@
 require 'moneta'
 require 'fileutils'
+require 'colorize'
 
 module SelfConsciousness
   def self.normalize
@@ -12,5 +13,8 @@ module SelfConsciousness
     conscious = Moneta.new :File, dir: '.self_consciousness'
     conscious['removals'] = conscious['dependencies'] - latest['dependencies']
     conscious['additions'] = latest['dependencies'] - conscious['dependencies']
+  end
+
+  def self.report
   end
 end
