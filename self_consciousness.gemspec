@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email       = 'jvscott@gmail.com'
   gem.homepage    = 'http://www.github.com/jscott/self_consciousness/'
   gem.summary     = 'Self Consciousness'
-  gem.description = 'Allowing programs to introspect and report on their own functionality.'
+  gem.description = 'Allowing code to introspect and report on its own functionality.'
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- kintama/**/*`.split("\n")
