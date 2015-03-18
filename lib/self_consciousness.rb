@@ -4,13 +4,13 @@ require 'colorize'
 
 module SelfConsciousness
   def self.without_self_identity
-    if $self_identity.nil?
+    begin
+      previously_enabled = SelfIdentity.enabled?
+      SelfIdentity.disable
       yield if block_given?
-    else
-      previously_enabled = $self_identity.enabled?
-      $self_identity.disable
+      SelfIdentity.enable if previously_enabled
+    rescue NameError => e
       yield if block_given?
-      $self_identity.enable if previously_enabled
     end
   end
 
