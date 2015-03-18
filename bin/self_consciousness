@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+require 'yaml'
+require 'commander/import'
+require 'colorize'
+require_relative '../lib/self_consciousness'
+
+program :name, 'Self Consciousness'
+program :version, '0.0.1'
+program :description, 'Introspection and reporting on a program\'s functionality'
+program :help, 'Author', 'Justin Scott <jvscott@gmail.com>'
+
+command :normalize do |c|
+  c.syntax = 'self_consciousness normalize'
+  c.description = 'Creates an idea of what identity is "normal".'
+  c.action do
+    SelfConsciousness.normalize
+    puts "[#{'Success'.green}] The last run program now defines normal."
+  end
+end
+
+command :report do |c|
+  c.syntax = 'self_consciousness report'
+  c.description = 'Finds how the program deviates from "normal" and displays a method chain diff.'
+  c.action do
+    puts SelfConsciousness.report
+  end
+end

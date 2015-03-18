@@ -2,14 +2,18 @@ require 'moneta'
 require 'fileutils'
 require 'colorize'
 
-def without_self_identity
-  previously_enabled = $self_identity.enabled?
-  $self_identity.disable
-  yield if block_given?
-  $self_identity.enable if previously_enabled
-end
-
 module SelfConsciousness
+  def self.without_self_identity
+    if $self_identity.nil?
+      yield if block_given?
+    else
+      previously_enabled = $self_identity.enabled?
+      $self_identity.disable
+      yield if block_given?
+      $self_identity.enable if previously_enabled
+    end
+  end
+
   def self.normalize
     without_self_identity do
       FileUtils.mkdir_p '.self_consciousness'

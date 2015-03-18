@@ -2,7 +2,7 @@ A module on top of self_identity to store what's "normal" and how the code has c
 
 Use `require 'self_identity'` in the script you want to be conscious of. Then have the script, or the script running it, call `SelfConsciousness.normalize`. Whenever that script calls `SelfConsciousness.report`, you'll get a diff of the method chain since you last normalized. You can also call `SelfConsciousness.introspect` to create the diff without reporting.
 
-Confused? Check out and run `example.rb`.
+Confused? Check out the `example` directory.
 
 If you don't know what the method chain is, check out [self_identity](https://github.com/colstrom/self_identity) first.
 
