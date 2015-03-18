@@ -2,27 +2,44 @@ require 'moneta'
 require 'fileutils'
 require 'colorize'
 
+def without_self_identity
+  previously_enabled = $self_identity.enabled?
+  $self_identity.disable
+  yield if block_given?
+  $self_identity.enable if previously_enabled
+end
+
 module SelfConsciousness
   def self.normalize
-    FileUtils.mkdir_p '.self_consciousness'
-    FileUtils.cp '.self_identity/dependencies', '.self_consciousness/dependencies'
+    without_self_identity do
+      FileUtils.mkdir_p '.self_consciousness'
+      FileUtils.cp '.self_identity/dependencies', '.self_consciousness/dependencies'
+    end
   end
 
   def self.clear
-    FileUtils.rm_rf '.self_consciousness'
+    without_self_identity do
+      conscious = Moneta.new :File, dir: '.self_consciousness'
+      conscious['dependencies'] = []
+    end
   end
 
   def self.introspect
-    latest = Moneta.new :File, dir: '.self_identity'
-    conscious = Moneta.new :File, dir: '.self_consciousness'
-    conscious['removals'] = conscious['dependencies'] - latest['dependencies']
-    conscious['additions'] = latest['dependencies'] - conscious['dependencies']
+    without_self_identity do
+      latest = Moneta.new :File, dir: '.self_identity'
+      conscious = Moneta.new :File, dir: '.self_consciousness'
+      conscious['removals'] = conscious['dependencies'] - latest['dependencies']
+      conscious['additions'] = latest['dependencies'] - conscious['dependencies']
+    end
   end
 
   def self.report
-    introspect
-    conscious = Moneta.new :File, dir: '.self_consciousness'
-    conscious['removals'].each { |item| puts "- #{item.to_s}".colorize(:red) }
-    conscious['additions'].each { |item| puts "+ #{item.to_s}".colorize(:green) }
+    without_self_identity do
+      introspect
+      conscious = Moneta.new :File, dir: '.self_consciousness'
+      conscious['removals'].each { |item| puts "- #{item.to_s}".colorize(:red) }
+      conscious['additions'].each { |item| puts "+ #{item.to_s}".colorize(:green) }
+      puts 'Nothing has changed' if conscious['removals'].concat(conscious['additions']).empty?
+    end
   end
 end
