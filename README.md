@@ -2,11 +2,17 @@
 
 A module on top of self_identity to store what's "normal" and how the code has changed since then.
 
-Use `require 'self_identity'` in the script you want to be conscious of. Then have the script, or the script running it, call `SelfConsciousness.normalize`. Whenever that script calls `SelfConsciousness.report`, you'll get a diff of the method chain since you last normalized. You can also call `SelfConsciousness.introspect` to create the diff without reporting.
+## Usage
 
-Confused? Check out the `example` directory.
+First, use [self_identity](https://github.com/colstrom/self_identity) in your code, this builds on top of that.
 
-If you don't know what the method chain is, check out [self_identity](https://github.com/colstrom/self_identity) first.
+Run `self_consciousness normalize` to set the identity in your current directory as "normal". Then run `self_consciousness report` to print a diff of what changed in the most recent run from that.
+
+You can also use it in code with `SelfConsciousness.normalize` and `SelfConsciousness.report` if that helps you in some way. The bin is just a wrapper around that. You can also call `SelfConsciousness.introspect` which will set the data for reporting but not generate the diff.
+
+## Confused?
+
+Check out the `example` directory.
 
 ## Data format:
 
