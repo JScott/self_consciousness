@@ -3,7 +3,6 @@ require 'yaml'
 require 'moneta'
 require 'colorize'
 require_relative '../lib/self_consciousness'
-require_relative 'stdout_helper'
 
 def execute(path)
   thread = Thread.new { system "ruby #{path}" }
